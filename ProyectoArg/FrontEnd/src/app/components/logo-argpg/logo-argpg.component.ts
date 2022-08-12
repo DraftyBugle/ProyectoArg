@@ -1,4 +1,7 @@
+import { Token } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-logo-argpg',
@@ -6,10 +9,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./logo-argpg.component.css']
 })
 export class LogoArgpgComponent implements OnInit {
-
-  constructor() { }
+isLogged = false;
+  constructor(private router:Router,private tokenService: TokenService) { }
 
   ngOnInit(): void {
+    if (this.tokenService.getToken()){
+      this.isLogged=true;
+    } else{
+      this.isLogged=false;
+    }
+  }
+  
+  onLogOut():void{
+    this.tokenService.logOut();
+    window.location.reload();
+  }
+
+  login(){
+    this.router.navigate(['/login'])
   }
 
 }
